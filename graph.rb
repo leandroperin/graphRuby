@@ -19,7 +19,7 @@ class Graph
 		if @vertex_list.count == 1
 			puts "ERROR: It is not possible to remove the vertex because it is the only one remaining in the graph!"
 		else
-			remove_all_connections
+			remove_connections _vertex
 			@vertex_list.delete(_vertex)
 			_vertex.set_added false
 		end
@@ -27,7 +27,7 @@ class Graph
 	
 	def connect(_vertex1, _vertex2, _value)
 		if _vertex1.get_added and _vertex2.get_added
-			remove_connections _vertex1, _vertex2
+			disconnect _vertex1, _vertex2
 			
 			edge = OpenStruct.new
 			edge.vertex1 = _vertex1
@@ -52,12 +52,13 @@ class Graph
 		end
 	end
 	
-	def remove_connections(_vertex1, _vertex2)
-	
-	end
-	
-	def remove_all_connections
-		
+	def remove_connections(_vertex)
+		@edge_list.each do |i|
+			puts i.vertex1.get_name + ' CONNECTED TO ' + i.vertex2.get_name
+			if i.vertex1 == _vertex or i.vertex2 == _vertex
+				@edge_list.delete(i)
+			end
+		end
 	end
 	
 	def order
@@ -73,7 +74,7 @@ class Graph
 		return @vertex_list[position]
 	end
 	
-	def adjacent_vertex_list(_vertex)
+	def degree(_vertex)
 		adj_list = Array.new
 		
 		@edge_list.each do |i|
@@ -84,11 +85,7 @@ class Graph
 			end
 		end
 		
-		return adj_list
-	end
-	
-	def degree(_vertex)
-		return adjacent_vertex_list(_vertex).count
+		return adj_list.count
 	end
 end
 
@@ -108,6 +105,6 @@ g.push_vertex v2
 g.push_vertex v3
 g.connect(v1,v2,3)
 g.connect(v1,v3,4)
-puts g.degree(v1)
-g.disconnect(v3,v1)
+puts g.degree(v3)
+g.pop_vertex v1
 puts g.degree(v1)
