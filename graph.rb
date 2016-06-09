@@ -1,5 +1,4 @@
 require_relative "vertex"
-require 'ostruct'
 
 class Graph
 	Edge = Struct.new(:vertex1, :vertex2, :value) do
