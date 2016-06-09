@@ -75,7 +75,7 @@ class Graph
 		end
 	end
 	
-	def order
+	def get_order
 		return @vertex_list.count
 	end
 	
@@ -83,12 +83,12 @@ class Graph
 		return @vertex_list
 	end
 	
-	def random_vertex
+	def get_random_vertex
 		position = rand(@vertex_list.count)
 		return @vertex_list[position]
 	end
 	
-	def degree(_vertex)
+	def get_adjacent_list(_vertex)
 		adj_list = Array.new
 		
 		@edge_list.each do |i|
@@ -98,7 +98,11 @@ class Graph
 				adj_list << i.get_vertex1
 			end
 		end
-		
-		return adj_list.count
+
+		return adj_list
+	end
+	
+	def get_degree(_vertex)
+		return get_adjacent_list(_vertex).count
 	end
 end
